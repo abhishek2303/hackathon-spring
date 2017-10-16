@@ -2,6 +2,8 @@ package com.stackroute.hackathon.controllers;
 
 import java.util.List;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stackroute.hackathon.domains.User;
@@ -32,6 +33,8 @@ public class UserController {
 	@Autowired
 	private UserValidator userValidator;
 	
+	private static Logger logger = LogManager.getRootLogger();
+	
 	@ApiOperation(value = "Add a new User")
 	@PostMapping(value = "/user", consumes = MediaType.APPLICATION_JSON_VALUE, produces =  MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> saveUser(@RequestBody User user) {
@@ -40,7 +43,8 @@ public class UserController {
 	          userService.addUser(user);
 	          return new ResponseEntity<User>(user,HttpStatus.CREATED);
 	      }
-	      catch(Exception e) { 	    	  
+	      catch(Exception e) { 	   
+	    	  logger.error(e.getMessage());
 	          return new ResponseEntity<String>("{\"msg\": \""+ e.getMessage() +  "\"}",HttpStatus.CONFLICT);
 	      }
 	}
@@ -93,8 +97,6 @@ public class UserController {
             return new ResponseEntity<User>(deletedUser, HttpStatus.OK);
         }
         catch(Exception e) {
-        	System.out.println("delete not possbile for id " + id);
-        	System.out.println(e.getMessage());
             return new ResponseEntity<String>("{\"msg\": \""+ e.getMessage() +  "\"}", HttpStatus.CONFLICT);
         }
 	}

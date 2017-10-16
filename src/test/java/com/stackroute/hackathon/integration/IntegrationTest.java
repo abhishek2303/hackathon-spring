@@ -117,14 +117,14 @@ public class IntegrationTest {
     
     @Test
     public void testGUpdateNonExistingUser() throws Exception {
-        User u = new User(1,"User2","updatedsomething@gmail.com");
+        User u = new User(5, "User2","updatedsomething@gmail.com");
         HttpEntity<User> entity = new HttpEntity<User>(u, headers);
         ResponseEntity<User> response = restTemplate.exchange(
                 createURLWithPort("/v2.0/api/rest-user/user"),
                 HttpMethod.PUT, entity, User.class);
         
         assertNotNull("Expected some value but found null",response);
-        assertEquals("Status code is not as expected",HttpStatus.CONFLICT,response.getStatusCode());       
+        assertEquals("Status code is not as expected", HttpStatus.CONFLICT, response.getStatusCode());       
     }
     
     @Test
