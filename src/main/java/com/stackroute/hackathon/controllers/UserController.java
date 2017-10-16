@@ -22,7 +22,7 @@ import com.stackroute.hackathon.servicecontracts.UserService;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("rest-service/")
+@RequestMapping("/v1.0/api/rest-user")
 public class UserController {
 	
 	@Autowired
@@ -80,12 +80,16 @@ public class UserController {
 	@ApiOperation(value = "Delete a User by ID")
 	@DeleteMapping("/user/{id}")
 	public ResponseEntity deleteUser(@PathVariable Long id) {
+		if(id <= 0) {
+			return new ResponseEntity<String>("{\"msg\": \"Enter a valid id\"}",HttpStatus.NO_CONTENT);
+		}
 		try {
-            return new ResponseEntity<User>(userService.deleteUserById(id),HttpStatus.OK);
+			User deletedUser = userService.deleteUserById(id);
+            return new ResponseEntity<User>(deletedUser, HttpStatus.OK);
         }
         catch(Exception e) {
         	System.out.println("delete not possbile for id " + id);
-            return new ResponseEntity<String>("{\"msg\": \"User with this ID doesn't exist\"}",HttpStatus.NO_CONTENT);
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.NO_CONTENT);
         }
 	}
 }

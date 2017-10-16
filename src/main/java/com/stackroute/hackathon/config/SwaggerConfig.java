@@ -20,7 +20,7 @@ public class SwaggerConfig {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.select()
 				.apis(RequestHandlerSelectors.basePackage("com.stackroute.hackathon.controllers"))
-				.paths(regex("rest-service/*"))
+				.paths(regex("/v1.0/api/rest-user/.*"))
 				.build()
 				.apiInfo(metaData());
 	}
