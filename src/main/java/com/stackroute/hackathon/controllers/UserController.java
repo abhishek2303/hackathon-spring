@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stackroute.hackathon.domains.User;
 import com.stackroute.hackathon.servicecontracts.UserService;
+import com.stackroute.hackathon.validation.UserValidator;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -28,16 +29,19 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
+	@Autowired
+	private UserValidator userValidator;
+	
 	@ApiOperation(value = "Add a new User")
 	@PostMapping(value = "/user", consumes = MediaType.APPLICATION_JSON_VALUE, produces =  MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> saveUser(@RequestBody User user) {
 		try {
+			  userValidator.validate(user);
 	          userService.addUser(user);
 	          return new ResponseEntity<User>(user,HttpStatus.CREATED);
 	      }
-	      catch(Exception e) { 
-	    	  e.printStackTrace();	    	  
-	          return new ResponseEntity<String>("{\"msg\": \"User already exists\"}",HttpStatus.CONFLICT);
+	      catch(Exception e) { 	    	  
+	          return new ResponseEntity<String>("{\"msg\": \""+ e.getMessage() +  "\"}",HttpStatus.CONFLICT);
 	      }
 	}
 	
@@ -45,23 +49,25 @@ public class UserController {
 	@PutMapping(value="/user", consumes = MediaType.APPLICATION_JSON_VALUE, produces =  MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> updateUser(@RequestBody User user) {
 		 try {
+			 userValidator.validate(user);
 	       		userService.update(user);
 	            return new ResponseEntity<User>(user,HttpStatus.OK);
 	       }
 	        catch(Exception e) {
-	            return new ResponseEntity<String>("{\"msg\": \"User doesn't exist\"}",HttpStatus.NO_CONTENT);
+	            return new ResponseEntity<String>("{\"msg\": \""+ e.getMessage() +  "\"}",HttpStatus.NO_CONTENT);
 	        }
 	}
 	
 	@ApiOperation(value = "Retrieve a User by ID")
 	@GetMapping("/user/{id}")
 	public ResponseEntity<?> getUser(@PathVariable Long id) {
+		User retrievedUser = null;
     	try {
-    		return new ResponseEntity<User>(userService.retrieveUserById(id),HttpStatus.OK);
+    		retrievedUser = userService.retrieveUserById(id);
+    		return new ResponseEntity<User>(retrievedUser, HttpStatus.OK);
     	}
     	catch(Exception e) {
-    		e.printStackTrace();
-    		return new ResponseEntity<String>("{\"msg\": \"No User exists by this ID\"}",HttpStatus.NO_CONTENT);
+    		return new ResponseEntity<String>("{\"msg\": \""+ e.getMessage() +  "\"}",HttpStatus.NO_CONTENT);
     	}
     }
 	
@@ -72,8 +78,7 @@ public class UserController {
     		return new ResponseEntity<List>(userService.retrieveAllUsers(),HttpStatus.OK);
     	}
     	catch(Exception e) {
-    		e.printStackTrace();
-    		return new ResponseEntity<String>("{\"msg\": \"No Users exist\"}",HttpStatus.NO_CONTENT);
+    		return new ResponseEntity<String>("{\"msg\": \""+ e.getMessage() +  "\"}",HttpStatus.NO_CONTENT);
     	}
 	}
 	
@@ -89,7 +94,7 @@ public class UserController {
         }
         catch(Exception e) {
         	System.out.println("delete not possbile for id " + id);
-            return new ResponseEntity<String>(e.getMessage(), HttpStatus.NO_CONTENT);
+            return new ResponseEntity<String>("{\"msg\": \""+ e.getMessage() +  "\"}", HttpStatus.NO_CONTENT);
         }
 	}
 }

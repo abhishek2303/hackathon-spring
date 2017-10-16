@@ -18,12 +18,10 @@ public class User {
 	private long id;
 	
 	@Column(name="NAME")
-	@NotNull
 	@Size(min=1, max=50)
 	private String name;
 	
 	@Column(name="EMAIL")
-	@NotNull
 	@Size(min = 1, max=50)
 	private String email;
 

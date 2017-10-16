@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.stackroute.hackathon.domains.User;
+import com.stackroute.hackathon.exceptions.UserAlreadyExistsException;
+import com.stackroute.hackathon.exceptions.UserDoesNotExistException;
 import com.stackroute.hackathon.repositorycontracts.UserRepository;
 import com.stackroute.hackathon.servicecontracts.UserService;
 
@@ -21,14 +23,14 @@ public class UserServiceImpl implements UserService {
 		if(retrievedUser == null)
 			return userRepository.save(user);
 		else
-			throw new Exception("User already exists with id: " + user.getId());
+			throw new UserAlreadyExistsException("User already exists with id: " + user.getId());
 	}
 
 	@Override
 	public User update(User user) throws Exception{
 		User u = userRepository.findOne(user.getId());
 		if(u==null)
-			throw new Exception("User already exists with id: " + user.getId());
+			throw new UserAlreadyExistsException("User already exists with id: " + user.getId());
 		else
 			return userRepository.save(user);
 	}
@@ -36,8 +38,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User retrieveUserById(long id) throws Exception {
 		User user = userRepository.findOne(id);
-		if(user ==null)
-			throw new Exception("User does not exist with id: " + id);
+		if(user == null)
+			throw new UserDoesNotExistException("User does not exist with id: " + id);
 		else
 			return user;
 	}
@@ -50,7 +52,7 @@ public class UserServiceImpl implements UserService {
 			users.add(user);
 		}
 		if (users.size() == 0)
-			throw new Exception("No users exist");
+			throw new UserDoesNotExistException("No users exist");
 		else
 			return users;
 	}
@@ -59,7 +61,7 @@ public class UserServiceImpl implements UserService {
 	public User deleteUserById(long id) throws Exception{
 		User userToDelete = userRepository.findOne(id);
 		if(userToDelete == null)
-			throw new Exception("User does not exist with id: " + id);
+			throw new UserDoesNotExistException("User does not exist with id: " + id);
 		else {
 			userRepository.delete(id);
 			return userToDelete;
