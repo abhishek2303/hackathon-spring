@@ -79,11 +79,12 @@ public class UserController {
 	
 	@ApiOperation(value = "Delete a User by ID")
 	@DeleteMapping("/user/{id}")
-	public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+	public ResponseEntity deleteUser(@PathVariable Long id) {
 		try {
             return new ResponseEntity<User>(userService.deleteUserById(id),HttpStatus.OK);
         }
         catch(Exception e) {
+        	System.out.println("delete not possbile for id " + id);
             return new ResponseEntity<String>("{\"msg\": \"User with this ID doesn't exist\"}",HttpStatus.NO_CONTENT);
         }
 	}

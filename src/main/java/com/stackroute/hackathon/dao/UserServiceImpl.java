@@ -16,30 +16,30 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 	
 	@Override
-	public User addUser(User user) throws Exception{
-		User u = userRepository.findOne(user.getId());
-		if(u==null)
+	public User addUser(User user) throws Exception {
+		User retrievedUser = userRepository.findOne(user.getId());
+		if(retrievedUser == null)
 			return userRepository.save(user);
 		else
-			throw new Exception();
+			throw new Exception("User already exists with id: " + user.getId());
 	}
 
 	@Override
 	public User update(User user) throws Exception{
 		User u = userRepository.findOne(user.getId());
 		if(u==null)
-			throw new Exception();
+			throw new Exception("User already exists with id: " + user.getId());
 		else
 			return userRepository.save(user);
 	}
 
 	@Override
 	public User retrieveUserById(long id) throws Exception {
-		User u = userRepository.findOne(id);
-		if(u==null)
-			throw new Exception();
+		User user = userRepository.findOne(id);
+		if(user ==null)
+			throw new Exception("User does not exist with id: " + id);
 		else
-			return userRepository.findOne(id);
+			return user;
 	}
 
 	@Override
@@ -49,8 +49,8 @@ public class UserServiceImpl implements UserService {
 		for(User user:  iterable) {
 			users.add(user);
 		}
-		if (users == null)
-			throw new Exception();
+		if (users.size() == 0)
+			throw new Exception("No users exist");
 		else
 			return users;
 	}
@@ -58,11 +58,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User deleteUserById(long id) throws Exception{
 		User userToDelete = userRepository.findOne(id);
-		if(userToDelete==null)
-			throw new Exception();
+		if(userToDelete == null)
+			throw new Exception("User does not exist with id: " + id);
 		else {
-		userRepository.delete(id);
-		return userToDelete;
+			userRepository.delete(id);
+			return userToDelete;
 		}
 	}
 
