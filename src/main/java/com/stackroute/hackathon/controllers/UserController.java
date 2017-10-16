@@ -22,14 +22,14 @@ import com.stackroute.hackathon.servicecontracts.UserService;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("rest-service/")
+@RequestMapping("/rest-service/")
 public class UserController {
 	
 	@Autowired
 	UserService userService;
 	
-	@ApiOperation(value = "Add a new User", response = Iterable.class)
-	@PostMapping(value = "/User", consumes = MediaType.APPLICATION_JSON_VALUE, produces =  MediaType.APPLICATION_JSON_VALUE)
+	@ApiOperation(value = "Add a new User")
+	@PostMapping(value = "/user", consumes = MediaType.APPLICATION_JSON_VALUE, produces =  MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> saveUser(@RequestBody User user) {
 		try {
 	          userService.addUser(user);
@@ -41,8 +41,8 @@ public class UserController {
 	      }
 	}
 	
-	@ApiOperation(value = "Update an existing User", response = Iterable.class)
-	@PutMapping(value="/User/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces =  MediaType.APPLICATION_JSON_VALUE)
+	@ApiOperation(value = "Update an existing User")
+	@PutMapping(value="/user", consumes = MediaType.APPLICATION_JSON_VALUE, produces =  MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> updateUser(@RequestBody User user, @PathVariable Long id) {
 		 try {
 	       		userService.update(user);
@@ -53,8 +53,8 @@ public class UserController {
 	        }
 	}
 	
-	@ApiOperation(value = "Retrieve a User by ID", response = Iterable.class)
-	@GetMapping("/User/{id}")
+	@ApiOperation(value = "Retrieve a User by ID")
+	@GetMapping("/user/{id}")
 	public ResponseEntity<?> getUser(@PathVariable Long id) {
     	try {
     		return new ResponseEntity<User>(userService.retrieveUserById(id),HttpStatus.OK);
@@ -66,7 +66,7 @@ public class UserController {
     }
 	
 	@ApiOperation(value = "Retrive all Users", response = Iterable.class)
-	@GetMapping("/Users")
+	@GetMapping("/users")
 	public ResponseEntity<?> getAllUsers() {
 		try {
     		return new ResponseEntity<List>(userService.retrieveAllUsers(),HttpStatus.OK);
@@ -77,8 +77,8 @@ public class UserController {
     	}
 	}
 	
-	@ApiOperation(value = "Delete a User by ID", response = Iterable.class)
-	@DeleteMapping("/User/{id}")
+	@ApiOperation(value = "Delete a User by ID")
+	@DeleteMapping("/user/{id}")
 	public ResponseEntity<?> deleteUser(@PathVariable Long id) {
 		try {
             return new ResponseEntity<User>(userService.deleteUserById(id),HttpStatus.OK);
