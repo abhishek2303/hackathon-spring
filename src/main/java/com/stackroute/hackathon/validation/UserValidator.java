@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import com.stackroute.hackathon.domains.User;
 import com.stackroute.hackathon.exceptions.InvalidUserEmailException;
 import com.stackroute.hackathon.exceptions.InvalidUserIdException;
+import com.stackroute.hackathon.exceptions.InvalidUserNameException;
 
 import java.util.regex.Matcher;
 
@@ -19,15 +20,21 @@ public class UserValidator {
 				throw new InvalidUserEmailException("Invalid user email: " + email);
 	}
 	
-	public boolean validateUserId(long id) throws InvalidUserIdException {
+	public void validateUserName(String name) throws InvalidUserNameException {
+		if(name == null) {
+			throw new InvalidUserNameException("Invalid user name");
+		}
+	}
+	
+	public void validateUserId(long id) throws InvalidUserIdException {
 		if(id <= 0) {
 			throw new InvalidUserIdException("Invalid user id: " + id);
 		}
-		return true;
 	}
 	
-	public void validate(User user) throws InvalidUserIdException, InvalidUserEmailException {
+	public void validate(User user) throws InvalidUserIdException, InvalidUserEmailException, InvalidUserNameException {
 		validateUserId(user.getId());
 		validateUserEmail(user.getEmail());
+		validateUserName(user.getName());
 	}
 }

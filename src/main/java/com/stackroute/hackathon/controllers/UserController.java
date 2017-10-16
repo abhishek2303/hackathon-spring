@@ -54,7 +54,7 @@ public class UserController {
 	            return new ResponseEntity<User>(user,HttpStatus.OK);
 	       }
 	        catch(Exception e) {
-	            return new ResponseEntity<String>("{\"msg\": \""+ e.getMessage() +  "\"}",HttpStatus.NO_CONTENT);
+	            return new ResponseEntity<String>("{\"msg\": \""+ e.getMessage() +  "\"}",HttpStatus.CONFLICT);
 	        }
 	}
 	
@@ -67,7 +67,7 @@ public class UserController {
     		return new ResponseEntity<User>(retrievedUser, HttpStatus.OK);
     	}
     	catch(Exception e) {
-    		return new ResponseEntity<String>("{\"msg\": \""+ e.getMessage() +  "\"}",HttpStatus.NO_CONTENT);
+    		return new ResponseEntity<String>("{\"msg\": \""+ e.getMessage() +  "\"}",HttpStatus.CONFLICT);
     	}
     }
 	
@@ -78,7 +78,7 @@ public class UserController {
     		return new ResponseEntity<List>(userService.retrieveAllUsers(),HttpStatus.OK);
     	}
     	catch(Exception e) {
-    		return new ResponseEntity<String>("{\"msg\": \""+ e.getMessage() +  "\"}",HttpStatus.NO_CONTENT);
+    		return new ResponseEntity<String>("{\"msg\": \""+ e.getMessage() +  "\"}",HttpStatus.CONFLICT);
     	}
 	}
 	
@@ -86,7 +86,7 @@ public class UserController {
 	@DeleteMapping("/user/{id}")
 	public ResponseEntity deleteUser(@PathVariable Long id) {
 		if(id <= 0) {
-			return new ResponseEntity<String>("{\"msg\": \"Enter a valid id\"}",HttpStatus.NO_CONTENT);
+			return new ResponseEntity<String>("{\"msg\": \"Enter a valid id\"}",HttpStatus.CONFLICT);
 		}
 		try {
 			User deletedUser = userService.deleteUserById(id);
@@ -94,7 +94,8 @@ public class UserController {
         }
         catch(Exception e) {
         	System.out.println("delete not possbile for id " + id);
-            return new ResponseEntity<String>("{\"msg\": \""+ e.getMessage() +  "\"}", HttpStatus.NO_CONTENT);
+        	System.out.println(e.getMessage());
+            return new ResponseEntity<String>("{\"msg\": \""+ e.getMessage() +  "\"}", HttpStatus.CONFLICT);
         }
 	}
 }
