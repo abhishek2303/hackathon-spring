@@ -25,6 +25,18 @@ public class User {
 	@Size(min = 1, max=50)
 	private String email;
 
+	
+	public User() {
+		super();
+	}
+
+	public User(long id, String name, String email) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.email = email;
+	}
+
 	public long getId() {
 		return id;
 	}
