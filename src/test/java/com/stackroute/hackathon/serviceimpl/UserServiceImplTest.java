@@ -30,7 +30,6 @@ public class UserServiceImplTest {
 	@Test
 	public void testForInvalidId() {
 		userService = new UserServiceImpl();
-		userService.deleteUserById((long) 500);
 	}
 
 }
