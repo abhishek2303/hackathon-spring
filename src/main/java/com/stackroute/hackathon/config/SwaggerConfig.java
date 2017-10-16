@@ -20,7 +20,7 @@ public class SwaggerConfig {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.select()
 				.apis(RequestHandlerSelectors.basePackage("com.stackroute.hackathon.controllers"))
-				.paths(regex("/v1.0/api/rest-user/.*"))
+				.paths(regex("/v2.0/api/rest-user/.*"))
 				.build()
 				.apiInfo(metaData());
 	}
@@ -28,7 +28,7 @@ public class SwaggerConfig {
 		ApiInfo apiInfo = new ApiInfo(
 				"Hackathon User REST API",
 				"User REST API for Online Store",
-				"1.0",
+				"2.0",
 				"Terms of service",
 				new Contact("Name of the creator", "https://UserService/about/", "creator@goplaces.com"),
 				"Apache License Version 2.0",

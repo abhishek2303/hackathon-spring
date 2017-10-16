@@ -23,7 +23,7 @@ import com.stackroute.hackathon.validation.UserValidator;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/v1.0/api/rest-user")
+@RequestMapping("/v2.0/api/rest-user")
 public class UserController {
 	
 	@Autowired

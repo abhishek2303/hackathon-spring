@@ -17,11 +17,14 @@ public class UserValidator {
 		Pattern p = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 		Matcher matcher = p.matcher(email);
 		if(!matcher.find())
-				throw new InvalidUserEmailException("Invalid user email: " + email);
+			throw new InvalidUserEmailException("Invalid user email: " + email);
 	}
 	
 	public void validateUserName(String name) throws InvalidUserNameException {
 		if(name == null) {
+			throw new InvalidUserNameException("Invalid user name");
+		}
+		if(name.equals("")) {
 			throw new InvalidUserNameException("Invalid user name");
 		}
 	}

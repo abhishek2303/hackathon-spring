@@ -68,4 +68,11 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@Override
+	public void setUserRepository(UserRepository userRepository) {
+		// TODO Auto-generated method stub
+		this.userRepository = userRepository;
+		
+	}
+
 }
